@@ -1,0 +1,378 @@
+The Wine development release 1.9.15 is now available.
+
+What's new in this release (see below for details):
+  - More shader instructions in Direct3D.
+  - Performance improvements in GDI.
+  - Better multi-joystick support on macOS.
+  - Active Scripting improvements.
+  - Additional stream support in the C++ runtime.
+  - Various bug fixes.
+
+The source is available from the following locations:
+
+  http://dl.winehq.org/wine/source/1.9/wine-1.9.15.tar.bz2
+  http://mirrors.ibiblio.org/wine/source/1.9/wine-1.9.15.tar.bz2
+
+Binary packages for various distributions will be available from:
+
+  http://www.winehq.org/download
+
+You will find documentation on http://www.winehq.org/documentation
+
+You can also get the current source directly from the git
+repository. Check http://www.winehq.org/git for details.
+
+Wine is available thanks to the work of many people. See the file
+AUTHORS in the distribution for the complete list.
+
+----------------------------------------------------------------
+
+Bugs fixed in 1.9.15 (total 22):
+
+   2905  Kings Quest 8 crashes while loading a saved game
+  14821  Kirikiri based games update screen slowly
+  21891  info zip 3.0 won't append to existing archive
+  33225  Metacell demo can't play music in mp3 format
+  36653  Tesla Effect (game): Video sequences display green screen.
+  37361  Scottrade Elite 2013 fails data streaming after about 90% of logins
+  37429  Post provider setup of WMI core 1.5 installer needs advapi32.dll.WmiQueryGuidInformation stub
+  37977  Multiple applications using VBScript/JScript need scripting host 'WScript.Quit' implementation
+  38475  Unused variable in glsl_shader.c
+  38997  Non-deterministic device id assignment when using more than one joystick/gamepad (multiplayer). Unable to deactivate joystick through registry or wine control applet
+  39845  Randomly "WinMorse2.exe" doesn't work under Wine.
+  40760  GOG Galaxy crashes with unimplemented function vcruntime140.dll.set_unexpected
+  40764  Bloodrayne 1-2 hang when playing videos
+  40822  Aliens vs. Triangles demo needs WINED3DFMT_R32_SINT format
+  40861  Kingsoft Office 2012 needs ntoskrnl.exe.IoAttachDevice
+  40872  Gauntlet requires dcl_immediateConstantBuffer support
+  40887  Nook eReader 2.5.3.4630 needs ncrypt.dll.NCryptOpenStorageProvider
+  40915  Max Payne demo installer displays highlighted text
+  40923  Alone in the Dark (2008) crashes on launch with msvcrt assertion
+  40932  [GAME] RAN GS crashes when starting (needs msvcp90.dll.?_Random_device@tr1@std@@YAIXZ)
+  40939  dlls/msvcr100 - error building on NetBSD
+  40959  mIRC: Crash on running code to see if mIRC is running in Wine.
+
+----------------------------------------------------------------
+
+Changes since 1.9.14:
+
+Aaryaman Vasishta (7):
+      d3drm: Store reference to IDirect3DRM in d3drm_device_create().
+      d3drm: Move struct d3drm_device to d3drm_private.h.
+      d3drm: Rearrange version 1, 2 functions after version 3 for IDirect3DRMDevice*.
+      d3drm: Implement IDirect3DRMDevice*::Add/DeleteDestroyCallback.
+      d3drm: Fix IDirect3DRMDevice{2-3}::GetDirect3DDevice2 return values on failure.
+      d3drm: Implement IDirect3DRMDevice*::InitFromD3D.
+      d3drm: Implement IDirect3DRMDevice{2-3}::InitFromD3D2.
+
+Akihiro Sagawa (1):
+      mciqtz32: Use dB unit when setting audio volume.
+
+Alex Henrie (8):
+      include: Add FolderItems2 and FolderItems3.
+      shell32: Print RIIDs as strings in shell dispatch TRACE statements.
+      shell32: Stub out FolderItems.
+      shell32/tests: Add tests for FolderItems.
+      shell32: Return E_INVALIDARG from FolderItems functions on null output.
+      shell32: Set output interfaces to NULL in FolderItems functions.
+      shell32/tests: Free winetest BSTR after use.
+      shell32/tests: Change to temp dir to be able to remove winetest dir.
+
+Alexandre Julliard (8):
+      server: Add a helper function to create a symlink to an existing object.
+      server: Add a helper function to create session directories and symlinks.
+      kernel32: Store synchronization objects under the session directory.
+      user32: Store window station objects under the session directory.
+      configure: Set the libwine soname on Android.
+      winegcc: Set the soname of all dlls on Android.
+      loader: The preloader is not supported on Android, don't try to use it.
+      server: Avoid unaligned access when printing x86 floating point registers.
+
+Alistair Leslie-Hughes (3):
+      inetcomm: Improve IMimeBody GetHandle return value.
+      inetcomm: GetBody returns MIME_E_NOT_FOUND when no parent found.
+      vcruntime140: Forward set_unexpected.
+
+Andrey Gusev (5):
+      po: Update Ukrainian translation.
+      avifil32: Use debugstr_guid() in TRACE() message.
+      hlink: Use debugstr_guid() in FIXME() message.
+      ole32: Use debugstr_guid() in TRACE() messages.
+      shell32: Use debugstr_guid() and debugstr_w() in TRACE() messages.
+
+Aurimas Fišeras (1):
+      po: Update Lithuanian translation.
+
+Austin English (5):
+      ntoskrnl.exe: Add IoAttachDevice stub.
+      include: Add more NTE_* definitions.
+      include: Add initial ncrypt.h.
+      ncrypt: Add some stub functions.
+      shell32: Add SHGetPropertyStoreForWindow stub.
+
+David Lawrie (5):
+      winejoystick.drv: Print location ID in debugstr_device on the Mac.
+      winejoystick.drv: Sort devices by location ID on the Mac.
+      dinput: Print location ID in debugstr_device on the Mac.
+      dinput: Sort devices by location ID on the Mac.
+      dinput: Alter function name and code style.
+
+Dmitry Timoshkov (2):
+      ntdll: Add support for fs segment in ThreadDescriptorTableEntry query.
+      kernel32/tests: Add tests for GetThreadSelectorEntry.
+
+Hans Leidekker (11):
+      webservices: Use a long double variable in format_double.
+      sspicli: New dll.
+      sspicli: Implement SspiEncodeStringsAsAuthIdentity.
+      sspicli: Implement SspiZeroAuthIdentity.
+      sspicli: Implement SspiEncodeAuthIdentityAsStrings.
+      sspicli: Implement SspiFreeAuthIdentity.
+      sspicli: Implement SspiLocalFree.
+      secur32: Forward Sspi functions to sspicli.
+      credui: Add a stub implementation of CredUIPromptForWindowsCredentialsW.
+      credui: Add stub implementations of CredPackAuthenticationBufferW and CredUnpackAuthenticationBufferW.
+      credui: Use the input identity passed to SspiPromptForCredentialsW.
+
+Henri Verbeet (15):
+      wined3d: Synchronise WINED3D_CS_OP_PRESENT resource access.
+      wined3d: Synchronise WINED3D_CS_OP_CLEAR resource access.
+      wined3d: Synchronise WINED3D_CS_OP_DRAW resource access.
+      d3d10: Validate offsets in parse_shader() (AFL).
+      d3d10: Validate offsets and size in parse_fx10_type() (AFL).
+      d3drm/tests: Fix some IDirect3D2 reference leaks.
+      wined3d: Also try DRIVER_MODEL_NT6X in init_driver_info().
+      wined3d: Get rid of redundant NULL checks for event query "extendedData".
+      wined3d: Fail event query creation when event queries are not supported.
+      wined3d: Get rid of redundant ARB_occlusion_query checks.
+      wined3d: Get rid of redundant ARB_timer_query checks.
+      wined3d: Use a single allocation for event queries.
+      wined3d: Use a single allocation for occlusion queries.
+      wined3d: Use a single allocation for timestamp queries.
+      wined3d: Introduce a separate function for creating timestamp disjoint queries.
+
+Hugh McMaster (8):
+      regedit: Use output_message() in regproc.c for better internationalization.
+      regedit: Use Unicode when printing system error messages.
+      regedit: Open export file with a wide-character stream.
+      regedit: Use Unicode for registry key paths.
+      regedit: Rewrite processRegLinesA into an ANSI version of processRegLinesW.
+      regedit: Use generic ARRAY_SIZE macro to allow for broader use.
+      regedit: Output the registry data type as a string when it is used in error messages.
+      reg: Handle a special case for Default values and 'reg query'.
+
+Huw D. M. Davies (10):
+      gdi32: Add back the extents test.
+      gdi32: Use the get_mono_dc_colors() helper.
+      gdi32: Add a mask_rect primitive for use when the src is 1bpp.
+      gdi32: Use alloc_gdi_path() to create the path.
+      gdi32: Change get_gdi_flat_path() to return an opaque path pointer.
+      gdi32: Reduce the number of memory allocations required for gdi paths.
+      gdi32: Copy 1-bpp pixels one byte at a time.
+      gdi32: Add helpers to allocate, grow and free regions.
+      gdi32: Add a small rectangle buffer to reduce memory allocation.
+      gdi32: Use an internal version of LPtoDP that takes a DC * where possible.
+
+Iván Matellanes (21):
+      msvcirt: Reset the pointers on file sync in most cases.
+      msvcirt: Add stub for class istream.
+      msvcirt: Implement istream constructors/destructors.
+      msvcirt: Implement istream::eatwhite.
+      msvcirt: Implement istream::gcount.
+      msvcirt: Implement istream::ipfx.
+      msvcirt: Implement istream::isfx.
+      msvcirt: Implement istream::get for strings.
+      msvcirt: Implement istream::get for single characters.
+      msvcirt: Implement istream::get for streambufs.
+      msvcirt: Implement istream::getline.
+      msvcirt: Implement istream::ignore.
+      msvcirt: Implement istream::peek.
+      msvcirt: Implement istream::putback.
+      msvcirt: Implement istream::read.
+      msvcirt: Implement istream::seekg.
+      msvcirt: Implement istream::sync.
+      msvcirt: Implement istream::tellg.
+      msvcirt: Implement istream::getint.
+      msvcirt: Implement istream::getdouble.
+      msvcirt: Implement istream::ws.
+
+Jacek Caban (15):
+      gdi32: Make CreateDIBSection hotpatchable.
+      kernel32: Make MapViewOfFile and VirtualAlloc hotpatchable.
+      mshtml/tests: Use relative URLs in navigation.js.
+      mshtml: Use bind_to_tree callback to parse dynamically added scripts.
+      mshtml: Moved getting text from ScriptBSC to separated function.
+      mshtml: Moved parsing external script to OnStopBinding callback.
+      mshtml: Store external script text in HTMLScriptElement object.
+      mshtml: Merge parse_extern_script and bind_script.
+      mshtml: Moved script execution logic from HTMLScriptElement::put_src to script BSC.
+      mshtml: Set loaded script ready state if binding failed.
+      mshtml: Set interactive script ready state change in the right places.
+      mshtml: Load dynamically created script elements asynchronously.
+      mshtml: Added asynchronous script loading tests.
+      jscript: Use IDispatch* as iface_to_jsdisp argument type.
+      jscript: Optimize iface_to_jsdisp by using vtbl comparison.
+
+Jan Schmidt (7):
+      winegstreamer: Don't replace internal bus.
+      winegstreamer: Don't store decodebin explicitly.
+      winegstreamer: Do conversion before flipping.
+      winegstreamer: Fix refcounting for videoflip.
+      d3d9: Adjust D3DCOLOR_ARGB to avoid shift overflow.
+      quartz: Images in Direct3D surfaces must be top-down.
+      quartz: Return the fullscreen status in Videorenderer.
+
+John Sheu (1):
+      kernel32/tests: Add some tests for fiber-local storage.
+
+Julian Rüger (1):
+      po: Update German translation.
+
+Józef Kucia (25):
+      d3d11: Implement d3d11_immediate_context_RSGetScissorRects().
+      d3d10core/tests: Add test for immediate constant buffer.
+      wined3d: Use uintBitsToFloat() for float immediate shader constants.
+      wined3d: Set load_local_constsF in shader_init().
+      d3d11/tests: Add test for writing floating-point specials to render target.
+      d3d10core/tests: Add test for writing floating-point specials to render target.
+      wined3d: Recognize SM5 vocp register.
+      wined3d: Implement SM4 umin instruction.
+      wined3d: Recognize SM4.1 lod opcode.
+      wined3d: Recognize SM4.1 samplepos opcode.
+      wined3d: Recognize SM4.1 sampleinfo opcode.
+      wined3d: Recognize SM5 ubfe opcode.
+      wined3d: Add ARB_vertex_type_2_10_10_10_rev extension.
+      wined3d: Store vertex attribute size instead of component size in wined3d_format.
+      wined3d: Add support for WINEDFMT_R10G10B10A2_UNORM vertex format.
+      d3d11/tests: Add test for DXGI_FORMAT_R10G10B10A2_UNORM vertex format.
+      d3d10core/tests: Add test for DXGI_FORMAT_R10G10B10A2_UNORM vertex format.
+      wined3d: Enable rendering to integer textures.
+      d3d11/tests: Add test for bitwise shader instructions.
+      d3d10core/tests: Add test for some shader instructions.
+      d3d11: Validate "MiscFlags" and "StructureByteStride" for raw and structured buffers.
+      d3d11/tests: Add more tests for structured and raw buffers.
+      d3d10core/tests: Add test for CreateBuffer() with invalid misc flags.
+      d3d11: Allow creating UAVs for structured buffers with NULL description.
+      d3d11: Allow creating SRVs for structured buffers with NULL description.
+
+Ken Thomases (3):
+      kernel32: Overhaul the handling of argv in set_process_name().
+      winemac: Only call -[NSApplication unhide:] if the app is actually hidden.
+      winemac: Call -removeFromSuperview on a view before adding it to a superview, on 10.9 and earlier.
+
+Kim Malmo (1):
+      po: Update Norwegian translation.
+
+Kirill K. Smirnov (1):
+      winex11.drv: Avoid passing NULL to memcpy (clang).
+
+Matteo Bruni (4):
+      wined3d: Update vertex shader when the swizzle map changes.
+      wined3d: Check BLENDWEIGHT and BLENDINDICES FFP attributes for fixups.
+      d3d8: Use a union in tss_lookup. (Coverity).
+      ddraw: Use a union in tss_lookup. (Coverity).
+
+Michael Müller (4):
+      ntdll: Use sysinfo to report correct number of physical pages.
+      kernel32/tests: Add tests for UnmapViewOfFile with unaligned pointer.
+      ntdll: NtUnmapViewOfSection should succeed for all offsets within the mapped range.
+      kernel32: In Win9x mode UnmapViewOfFile requires base address of a mapping.
+
+Michael Stefaniuc (43):
+      windowscodecs: Remove a redundant NULL check before HeapFree().
+      winepulse: Remove a redundant NULL check before HeapFree().
+      comctl32: Use InflateRect() too when expanding in just one axis.
+      explorerframe: Use the proper RECT APIs.
+      explorerframe/tests: Use SetRect() instead of open coding it.
+      explorerframe/tests: The width is between the RECT left and right fields.
+      explorerframe/tests: Use EqualRect() instead of open coding it.
+      wordpad: Use InflateRect() instead of open coding it.
+      riched20: Get rid of casts from COM objects to interfaces.
+      riched20/tests: Use InflateRect() too when expanding in just one axis.
+      ieframe: Use InflateRect() instead of open coding it.
+      hhctrl: Use SetRect() instead of open coding it.
+      d3d9: Use SetRect() instead of open coding it.
+      d3dxof: Avoid casts from COM objects to interfaces.
+      d3dcompiler/tests: Avoid using the LPD3DBLOB COM iface type.
+      taskmgr: Remove some old commented out code, mostly C++.
+      taskmgr: Use SetRect() instead of open coding it.
+      mshtml: Use SetRect() instead of open coding it.
+      maintainers: D3dxof is a D3D helper library too.
+      avifil32: Use atomic operations to manipulate the refcount.
+      avifil32: Clean up the IClassFactory creation.
+      avifil32: Avoid using the LPCLASSFACTORY COM iface type.
+      dmsynth: Simplify error handling when creating a DMSynthSink object.
+      avifil32: Move CreateEditableStream() to avoid exporting a helper.
+      avifil32: Avoid casts of IAVIEditStream to the COM object.
+      avifil32/tests: Add some basic COM tests for AVIEditStream.
+      avifil32: Avoid casts from COM objects to ifaces.
+      usp10/tests: Use SetRect() instead of open coding it.
+      strmbase: Don't cast IQualityControl to the COM object.
+      strmbase: Avoid a COM object to interface cast.
+      amstream: Avoid using the LPUNKNOWN COM iface type.
+      mshtml: Avoid using LPSTREAM.
+      user32: Use SetRect() instead of open coding it.
+      user32: Simplify a RECT copy.
+      dmsynth: The DMSynth{,Sink} COM objects don't support aggregation.
+      dmsynth/tests: Move the dll availability check to a separate function.
+      dmsynth/tests: Add COM tests for DMSynth and DMSynthSink.
+      dmsynth: Lock/unlock the module only on creation/desctruction.
+      msctf: Don't crash on NULL input in EnumLanguageProfiles().
+      msctf: Avoid a cast from IEnumTfLanguageProfiles to the COM object.
+      hlink/tests: Use wine_dbgstr_guid() to print a REFIID.
+      shlwapi/tests: Use wine_dbgstr_guid() to trace REFIIDs.
+      comctl32: Avoid using the LPSTREAM COM iface type.
+
+Nikolay Sivov (25):
+      webservices/tests: Fix WsCreateMessage() arguments (Clang).
+      webservices/tests: Fix WsReadValue type argument values (Clang).
+      mshtml: Fix a typo in a trace message.
+      msscript: Implement some connection point methods.
+      xmllite/writer: Close open tag with WriteFullEndElement().
+      xmllite/writer: Implement WriteCharEntity().
+      xmllite/writer: Fix formatted output with WriteFullEndElement().
+      comctl32/trackbar: Update thumb on range change.
+      comctl32/trackbar: Fix mouse position to thumb position conversion rounding.
+      dwrite: Ignore fonts with dot-prefixed names.
+      po: Update Russian translation.
+      wbemdisp: Fix a crash on null interface pointer.
+      msscript: Initial support for hosting script engines.
+      dwrite: Use more intuitive naming for layout stages.
+      dwrite: Validate CreateTextFormat() arguments.
+      dwrite: Implement SetTrimming() for layout.
+      msscript: Implement Timeout property.
+      dwrite: Implement GetOverhangMetrics() for trimming sign.
+      dwrite/tests: A couple of tests for matching with invalid font properties.
+      dwrite: Filter invalid weight in SetFontWeight().
+      msscript: Implement SetAdvise/GetAdvise.
+      msscript: Added IServiceProvider stub.
+      msscript: Added IActiveScriptSiteWindow stub.
+      msscript: Implement Reset().
+      comctl32/tooltips: Fix TTM_GETMARGIN/TTM_SETMARGIN handling.
+
+Piotr Caban (2):
+      msi: Don't validate platform while checking if transform is applicable.
+      msvcr100: Fix compilation on NetBSD (conflicting fenv_t definitions).
+
+Piotr Chruściel (1):
+      server: Move the \BaseNamedObjects symlink in \Sessions\0 to \Sessions\1\BaseNamedObjects.
+
+Sebastian Lackner (11):
+      secur32: Define missing gnutls_kx_algorithm_t constants for gnutls versions < 3.
+      kernel32/tests: Use inline implementation of NtCurrentTeb for debugger tests.
+      ntdll/tests: Use inline implementation of NtCurrentTeb for exception tests.
+      ntdll/tests: Use inline implementation of NtCurrentTeb for rtl tests.
+      opengl32/tests: Include wgl.h and remove duplicate declarations.
+      dmsynth: Fix a module refcounting regression.
+      kernel32/tests: Use inline implementation of NtCurrentTeb for process tests.
+      vcomp: Implement 16-bit atomic instructions.
+      vcomp/tests: Add tests for 16-bit atomic instructions.
+      vcomp: Implement 8-bit atomic instructions.
+      vcomp/tests: Add tests for 8-bit atomic instructions.
+
+Stefan Dösinger (1):
+      ddraw/tests: Skip A4R4G4B4 ckey tests on Nvidia.
+
+--
+Alexandre Julliard
+julliard@winehq.org
