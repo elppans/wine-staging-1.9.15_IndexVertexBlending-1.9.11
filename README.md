@@ -1,5 +1,5 @@
 # wine-staging-1.9.15_IndexVertexBlending-1.9.11-source
-Wine 1.9.15 + Staging + path Index Vertex Blending para 1.9.11 sources anexado
+Wine 1.9.15 + Staging + path Index Vertex Blending Wine 1.9.11 SOURCES
 
 Todo o pacote já foi preparado, para a instalação faça:
 
