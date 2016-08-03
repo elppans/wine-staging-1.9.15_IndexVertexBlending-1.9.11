@@ -1,0 +1,49 @@
+From 20fe06391437e9afaf34014b182df39e9a617e3b Mon Sep 17 00:00:00 2001
+From: Christian Costa <titan.costa@gmail.com>
+Date: Wed, 31 Dec 2014 18:45:24 +0100
+Subject: d3dx9_36: Add stub for D3DXComputeNormalMap.
+
+---
+ dlls/d3dx9_36/d3dx9_36.spec |  2 +-
+ dlls/d3dx9_36/mesh.c        | 12 ++++++++++++
+ 2 files changed, 13 insertions(+), 1 deletion(-)
+
+diff --git a/dlls/d3dx9_36/d3dx9_36.spec b/dlls/d3dx9_36/d3dx9_36.spec
+index 622f2d0..746b8db 100644
+--- a/dlls/d3dx9_36/d3dx9_36.spec
++++ b/dlls/d3dx9_36/d3dx9_36.spec
+@@ -22,7 +22,7 @@
+ @ stub D3DXComputeIMTFromPerVertexSignal(ptr ptr long long long ptr ptr ptr)
+ @ stub D3DXComputeIMTFromSignal(ptr long long long long ptr ptr ptr ptr ptr)
+ @ stub D3DXComputeIMTFromTexture(ptr ptr long long ptr ptr ptr)
+-@ stub D3DXComputeNormalMap(ptr ptr ptr long long float)
++@ stdcall D3DXComputeNormalMap(ptr ptr ptr long long float)
+ @ stdcall D3DXComputeNormals(ptr ptr)
+ @ stub D3DXComputeTangent(ptr long long long long ptr)
+ @ stub D3DXComputeTangentFrame(ptr long)
+diff --git a/dlls/d3dx9_36/mesh.c b/dlls/d3dx9_36/mesh.c
+index 3204ea7..b0b9846 100644
+--- a/dlls/d3dx9_36/mesh.c
++++ b/dlls/d3dx9_36/mesh.c
+@@ -7528,6 +7528,18 @@ HRESULT WINAPI D3DXComputeNormals(struct ID3DXBaseMesh *mesh, const DWORD *adjac
+ }
+ 
+ /*************************************************************************
++ * D3DXComputeNormalMap    (D3DX9_36.@)
++ */
++HRESULT WINAPI D3DXComputeNormalMap(IDirect3DTexture9 *texture, IDirect3DTexture9 *src_texture,
++        const PALETTEENTRY *src_palette, DWORD flags, DWORD channel, FLOAT amplitude)
++{
++    FIXME("texture %p, src_texture %p, src_palette %p, flags %#x, channel %u, amplitude %f stub.\n",
++            texture, src_texture, src_palette, flags, channel, amplitude);
++
++    return D3D_OK;
++}
++
++/*************************************************************************
+  * D3DXIntersect    (D3DX9_36.@)
+  */
+ HRESULT WINAPI D3DXIntersect(ID3DXBaseMesh *mesh, const D3DXVECTOR3 *ray_pos, const D3DXVECTOR3 *ray_dir,
+-- 
+2.8.0
+

@@ -1,0 +1,43 @@
+From 381bfb72fa46393989229619d21a2aa93c0a808c Mon Sep 17 00:00:00 2001
+From: Andrey Gusev <andrey.goosev@gmail.com>
+Date: Wed, 1 Apr 2015 20:59:49 +0300
+Subject: d3dx9_36: Add D3DXFrameFind stub.
+
+---
+ dlls/d3dx9_36/d3dx9_36.spec | 2 +-
+ dlls/d3dx9_36/mesh.c        | 6 ++++++
+ 2 files changed, 7 insertions(+), 1 deletion(-)
+
+diff --git a/dlls/d3dx9_36/d3dx9_36.spec b/dlls/d3dx9_36/d3dx9_36.spec
+index 4cadb53..9935352 100644
+--- a/dlls/d3dx9_36/d3dx9_36.spec
++++ b/dlls/d3dx9_36/d3dx9_36.spec
+@@ -135,7 +135,7 @@
+ @ stub D3DXFrameAppendChild(ptr ptr)
+ @ stub D3DXFrameCalculateBoundingSphere(ptr ptr ptr)
+ @ stdcall D3DXFrameDestroy(ptr ptr)
+-@ stub D3DXFrameFind(ptr str)
++@ stdcall D3DXFrameFind(ptr str)
+ @ stub D3DXFrameNumNamedMatrices(ptr)
+ @ stub D3DXFrameRegisterNamedMatrices(ptr ptr)
+ @ stdcall D3DXFresnelTerm(float float)
+diff --git a/dlls/d3dx9_36/mesh.c b/dlls/d3dx9_36/mesh.c
+index b0b9846..aa98b1a 100644
+--- a/dlls/d3dx9_36/mesh.c
++++ b/dlls/d3dx9_36/mesh.c
+@@ -4046,6 +4046,12 @@ HRESULT WINAPI D3DXFrameDestroy(D3DXFRAME *frame, ID3DXAllocateHierarchy *alloc_
+     return D3D_OK;
+ }
+ 
++D3DXFRAME* WINAPI D3DXFrameFind(const D3DXFRAME *frame_root, const char *name)
++{
++    FIXME("frame_root %p, name %s stub.\n", frame_root, debugstr_a(name));
++    return NULL;
++}
++
+ HRESULT WINAPI D3DXLoadMeshFromXA(const char *filename, DWORD options, struct IDirect3DDevice9 *device,
+         struct ID3DXBuffer **adjacency, struct ID3DXBuffer **materials, struct ID3DXBuffer **effect_instances,
+         DWORD *num_materials, struct ID3DXMesh **mesh)
+-- 
+2.8.0
+
